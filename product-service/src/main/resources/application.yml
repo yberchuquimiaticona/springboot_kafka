@@ -2,12 +2,12 @@ spring:
   application:
     name: product-service
   datasource:
-    url: jdbc:postgresql://localhost:5432/ecommerce
-    username: product_user
-    password: product_password
+    url: jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5432}/${DB_NAME:ecommerce}
+    username: ${DB_USER:ecommerce_user}
+    password: ${DB_PASSWORD:ecommerce_password}
   jpa:
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: ${JPA_HIBERNATE_DDL_AUTO:validate}
     properties:
       hibernate:
         format_sql: true
@@ -19,6 +19,8 @@ spring:
     producer:
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+    properties:
+      spring.json.type.mapping: productCreatedEvent:dev.ychuquimia.product_service.kafka.event.ProductCreatedEvent
 
 logging:
   level:

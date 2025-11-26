@@ -10,10 +10,8 @@ import dev.ychuquimia.product_service.model.Category;
 import dev.ychuquimia.product_service.repository.CategoryRepository;
 import dev.ychuquimia.product_service.repository.ProductRepository;
 import java.util.List;
-
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 
 @Service
 @Transactional(readOnly = true)
@@ -22,14 +20,16 @@ public class CategoryService {
   private final CategoryRepository categoryRepository;
   private final ProductRepository productRepository;
 
-  public CategoryService(CategoryRepository categoryRepository, ProductRepository productRepository) {
+  public CategoryService(CategoryRepository categoryRepository,
+      ProductRepository productRepository) {
     this.categoryRepository = categoryRepository;
     this.productRepository = productRepository;
   }
 
   public List<CategoryResponse> findAll() {
     return categoryRepository.findAll().stream()
-        .map(category -> new CategoryResponse(category.getId(), category.getName(), category.getDescription()))
+        .map(category -> new CategoryResponse(category.getId(), category.getName(),
+            category.getDescription()))
         .toList();
   }
 

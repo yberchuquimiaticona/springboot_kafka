@@ -65,8 +65,10 @@ public class GlobalExceptionHandler {
   }
 
   @ExceptionHandler(CategoryAlreadyExistsException.class)
-  public ResponseEntity<ErrorResponse> handleCategoryExists(CategoryAlreadyExistsException ex, HttpServletRequest request) {
+  public ResponseEntity<ErrorResponse> handleCategoryExists(CategoryAlreadyExistsException ex,
+      HttpServletRequest request) {
     return ResponseEntity.status(HttpStatus.CONFLICT)
-        .body(new ErrorResponse(Instant.now(), HttpStatus.CONFLICT.value(), "CATEGORY_EXISTS", ex.getMessage(), request.getRequestURI()));
+        .body(new ErrorResponse(Instant.now(), HttpStatus.CONFLICT.value(), "CATEGORY_EXISTS",
+            ex.getMessage(), request.getRequestURI()));
   }
 }

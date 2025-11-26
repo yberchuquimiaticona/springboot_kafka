@@ -16,7 +16,6 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-
 @Service
 @Transactional(readOnly = true)
 public class ProductService {
@@ -31,6 +30,7 @@ public class ProductService {
     this.categoryRepository = categoryRepository;
     this.productEventProducer = productEventProducer;
   }
+
   public List<ProductResponse> findAll(String name) {
     List<Product> products = (name == null || name.isBlank())
         ? productRepository.findAll()
@@ -49,9 +49,11 @@ public class ProductService {
   @Transactional
   public ProductResponse create(ProductRequest request) {
     Category category = categoryRepository.findById(request.categoryId())
-        .orElseThrow(() -> new ResourceNotFoundException("Categoría " + request.categoryId() + " no encontrada"));
+        .orElseThrow(() -> new ResourceNotFoundException(
+            "Categoría " + request.categoryId() + " no encontrada"));
     Product product = new Product();
-    Product savedProduct = productRepository.save(ProductMapper.toEntity(request, product, category));
+    Product savedProduct = productRepository.save(
+        ProductMapper.toEntity(request, product, category));
 
     ProductCreatedEvent event = new ProductCreatedEvent(
         savedProduct.getId(),
@@ -70,7 +72,8 @@ public class ProductService {
     Product product = productRepository.findById(id)
         .orElseThrow(() -> new ResourceNotFoundException("Producto " + id + " no encontrado"));
     Category category = categoryRepository.findById(request.categoryId())
-        .orElseThrow(() -> new ResourceNotFoundException("Categoría " + request.categoryId() + " no encontrada"));
+        .orElseThrow(() -> new ResourceNotFoundException(
+            "Categoría " + request.categoryId() + " no encontrada"));
     Product updated = productRepository.save(ProductMapper.toEntity(request, product, category));
     return ProductMapper.toResponse(updated);
   }

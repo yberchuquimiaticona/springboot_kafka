@@ -1,6 +1,5 @@
 package dev.ychuquimia.product_service.mapper;
 
-
 import dev.ychuquimia.product_service.dto.ProductRequest;
 import dev.ychuquimia.product_service.dto.ProductResponse;
 import dev.ychuquimia.product_service.dto.ProductSummaryResponse;
@@ -28,6 +27,14 @@ public final class ProductMapper {
     );
   }
 
+  public static ProductSummaryResponse toSummaryResponse(Product product) {
+    return new ProductSummaryResponse(
+        product.getId(),
+        product.getName(),
+        product.getPrice()
+    );
+  }
+
   public static Product toEntity(ProductRequest request, Product entity, Category category) {
     entity.setName(request.name());
     entity.setDescription(request.description());
@@ -35,13 +42,5 @@ public final class ProductMapper {
     entity.setStock(request.stock());
     entity.setCategory(category);
     return entity;
-  }
-
-  public static ProductSummaryResponse toSummaryResponse(Product product) {
-    return new ProductSummaryResponse(
-        product.getId(),
-        product.getName(),
-        product.getPrice()
-    );
   }
 }
